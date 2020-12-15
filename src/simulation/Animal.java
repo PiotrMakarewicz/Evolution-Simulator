@@ -7,49 +7,30 @@ public class Animal{
     private final int birthDay;
     private int deathDay;
     private final Genome genome;
-    private Simulation simulation;
-
-    private Location location;
     private Direction direction;
     private int energy;
 
-
-    private List<AnimalStateAfterDay> stateAfterEachDay = new ArrayList<>();
-
-    Animal(Animal parent1, Animal parent2, int energy){
-        this.simulation = parent1.simulation;
-        this.genome = new Genome(parent1.getGenome(), parent2.getGenome());
+    Animal(int energy, int birthDay){
+        this.birthDay = birthDay;
         this.energy = energy;
-        this.birthDay = simulation.getCurrentDay();
+        this.genome = new Genome();
+    };
+
+    Animal(Animal parent1, Animal parent2, int birthDay){
+        this.genome = new Genome(parent1.getGenome(), parent2.getGenome());
+        this.energy = parent1.energy / 4 + parent2.energy / 4;
+        this.birthDay = birthDay;
     }
 
-    public void kill() throws AnimalStateException {
+    public void kill(int deathDay) throws AnimalStateException {
         if (!this.isAlive())
             throw new AnimalStateException("Trying to kill a dead animal: " + this.toString());
         this.energy = 0;
-        this.deathDay = simulation.getCurrentDay();
+        this.deathDay = deathDay;
     }
-    public Direction shift() {
-        return direction = direction.shiftedBy(genome.pickRandomGene());
+    public void shift() {
+        direction = direction.shiftedBy(genome.pickRandomGene());
     }
-
-    public Location move() throws AnimalStateException {
-        if (!this.isAlive())
-            throw new AnimalStateException("Trying to move a dead animal: " + this.toString());
-        if (this.energy < simulation.getParams().getMoveEnergy())
-            this.kill();
-        this.energy -= simulation.getParams().getMoveEnergy();
-        int boardWidth = simulation.getParams().getWidth();
-        int boardHeight = simulation.getParams().getHeight();
-        int newX = (location.getX() + direction.getX() + boardWidth) % boardWidth;
-        int newY = (location.getY() + direction.getY() + boardHeight) % boardHeight;
-        return location = new Location(newX,newY);
-    }
-
-    private void saveStateAfterDay(){
-
-    }
-
 
     public int getBirthDay() {
         return birthDay;
@@ -63,10 +44,6 @@ public class Animal{
         return genome;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
     public Direction getDirection() {
         return direction;
     }
@@ -77,9 +54,5 @@ public class Animal{
 
     public int getEnergy() {
         return energy;
-    }
-
-    public List<AnimalStateAfterDay> getStateAfterEachDay() {
-        return stateAfterEachDay;
     }
 }
