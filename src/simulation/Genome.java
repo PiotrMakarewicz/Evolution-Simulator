@@ -32,7 +32,7 @@ public class Genome {
         genes.addAll(parentGenomes.get(firstPartFrom).genes.subList(0,breakpt1));
         genes.addAll(parentGenomes.get(secondPartFrom).genes.subList(breakpt1,breakpt2));
         genes.addAll(parentGenomes.get(thirdPartFrom).genes.subList(breakpt2,32));
-        this.genes = Genome.addMissingGenes(genes.stream().sorted().collect(Collectors.toList()));
+        this.genes = Genome.addMissingGenes(genes).stream().sorted().collect(Collectors.toList());
     };
 
     private static List<Integer> addMissingGenes(List<Integer> genes){
@@ -77,8 +77,19 @@ public class Genome {
         }
         return null;
     }
+    public static boolean genesOrdered(List<Integer> genes){
+        for (int i = 0; i + 1 < genes.size(); i++){
+            if(genes.get(i) > genes.get(i+1))
+                return false;
+        }
+        return true;
+    }
 
     public boolean isValid(){
-        return Genome.containsAllGenes(this.genes);
+        return Genome.containsAllGenes(this.genes) && Genome.genesOrdered(this.genes);
+    }
+
+    public List<Integer> getGenes(){
+        return List.copyOf(genes);
     }
 }

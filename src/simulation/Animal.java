@@ -22,7 +22,7 @@ public class Animal{
         this.birthDay = birthDay;
     }
 
-    public void kill(int deathDay) throws AnimalStateException {
+    public void die(int deathDay) throws AnimalStateException {
         if (!this.isAlive())
             throw new AnimalStateException("Trying to kill a dead animal: " + this.toString());
         this.energy = 0;
