@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenomeWatcher{
-    Board board;
+    AnimalBoard animalBoard;
     private List<Genome> genomeFrequency = new ArrayList<Genome>();
 
     public void update(){};

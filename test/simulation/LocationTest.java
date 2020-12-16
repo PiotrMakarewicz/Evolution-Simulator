@@ -30,4 +30,17 @@ class LocationTest {
         assertTrue(l3.compareTo(l3) == 0);
         assertTrue(l4.compareTo(l4) == 0);
     }
+
+    @Test
+    public void getRandom(){
+        assertTrue(Location.getRandom(3,8).getX()<3);
+        assertTrue(Location.getRandom(1,4).getY()<4);
+        try {
+            assertTrue(Location.getRandom(3, 4, 8, 12).getX() >= 3);
+            assertTrue(Location.getRandom(6, 5, 4, 16).getY() < 16);
+        }
+        catch (InvalidRectangleException e){
+            System.out.println(e.toString());
+        }
+    }
 }
