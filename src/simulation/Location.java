@@ -49,4 +49,12 @@ public class Location implements Comparable<Location>{
     public Location stepTo(Direction direction){
         return new Location(x+ direction.getX(),y+direction.getY());
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

@@ -21,6 +21,8 @@ public enum Direction {
         return Direction.values()[(this.ordinal()+step)%8];
     }
 
+
+
     public int getX() {
         return x;
     }

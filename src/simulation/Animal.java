@@ -2,6 +2,7 @@ package simulation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Animal{
     private final int birthDay;
@@ -16,6 +17,7 @@ public class Animal{
         this.energy = energy;
         this.genome = new Genome();
         this.location = location;
+        this.direction = Direction.values()[(new Random(System.nanoTime()).nextInt(8))];
     };
 
     Animal(Animal parent1, Animal parent2, int birthDay, Location location){
@@ -59,6 +61,10 @@ public class Animal{
         return energy;
     }
 
+    public void addEnergy(double energy){
+        this.energy += energy;
+    }
+
     public Location getLocation() { return location; }
 
     public void setLocation(Location location) {
@@ -68,4 +74,5 @@ public class Animal{
     public void setEnergy(double energy) {
         this.energy = energy;
     }
+
 }

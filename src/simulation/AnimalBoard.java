@@ -24,6 +24,11 @@ public class AnimalBoard {
             locationAnimalMap.get(animal.getLocation()).add(animal);
         }
     }
+
+    public List<Location> locations(){
+        return locationAnimalMap.keySet().stream().collect(Collectors.toList());
+    }
+
     public void remove(Animal animal) {
         Location locationToRemove = null;
         for (Map.Entry<Location, List<Animal>> entry : locationAnimalMap.entrySet()) {
@@ -39,6 +44,11 @@ public class AnimalBoard {
             locationAnimalMap.remove(locationToRemove);
         }
     }
+
+    public boolean noAnimalsAt(Location location){
+        return locationAnimalMap.get(location) == null;
+    }
+
     public List<Animal> get(Location location){
         List<Animal> animals = locationAnimalMap.get(location);
         if (animals == null) return new ArrayList<Animal>();
