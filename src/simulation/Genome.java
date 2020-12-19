@@ -92,4 +92,12 @@ public class Genome {
     public List<Integer> getGenes(){
         return List.copyOf(genes);
     }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int gene : genes){
+            sb.append(gene);
+        }
+        return sb.toString();
+    }
 }

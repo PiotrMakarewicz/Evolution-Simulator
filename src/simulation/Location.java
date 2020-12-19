@@ -52,9 +52,8 @@ public class Location implements Comparable<Location>{
 
     @Override
     public String toString() {
-        return "Location{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "("+ x + " "
+                + y +
+                ')';
     }
 }

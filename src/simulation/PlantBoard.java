@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class PlantBoard {
             int plantsNum = getPlantedSpots().get(location);
             getPlantedSpots().remove(location);
             if (plantsNum != 1){
-                getPlantedSpots().put(location,plantsNum+-1);
+                getPlantedSpots().put(location,plantsNum-1);
             }
         }
     }
@@ -45,7 +46,7 @@ public class PlantBoard {
     }
 
     public List<Location> getPlantedLocations() {
-        return plantedSpots.keySet().stream().collect(Collectors.toList());
+        return new ArrayList<>(plantedSpots.keySet());
     }
 
     public AbstractMap<Location, Integer> getPlantedSpots() {

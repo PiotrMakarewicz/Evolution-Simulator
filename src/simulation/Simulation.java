@@ -40,10 +40,12 @@ public class Simulation {
             Location location = Location.getRandom(width,height);
             if(jungle.contains(location) && !plantedInJungle){
                 plantBoard.plant(location);
+                System.out.println("Added in-jungle plant at "+location.toString());
                 plantedInJungle = true;
             }
             else if(!jungle.contains(location) && !plantedOutsideJungle){
                 plantBoard.plant(location);
+                System.out.println("Added outside-jungle plant at "+location.toString());
                 plantedOutsideJungle = true;
             }
         }
@@ -55,7 +57,8 @@ public class Simulation {
             if (animal.getEnergy() < 0) {
                 animal.die(currentDay);
             } else {
-                System.out.println("Moving animal from " + animal.getLocation() +" to "+toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
+                System.out.println("Moving "+animal.toString()+" from " + animal.getLocation() +" to "+toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
+                animal.shift();
                 animal.setLocation(toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
             }
             animalBoard.update();
@@ -69,18 +72,19 @@ public class Simulation {
         for (Location location : plantBoard.getPlantedLocations()) {
             plantBoard.unplant(location);
             List<Animal> animals = animalBoard.get(location);
-            if (animals != null) {
+            if (!animals.isEmpty()) {
                 double highestEnergy = animals.stream()
                         .max(new AnimalEnergyComparator())
                         .get()
                         .getEnergy();
                 List<Animal> highestEnergyAnimals = animals.stream()
-                        .filter((animal -> animal.getEnergy() == highestEnergy))
+                        .filter((animal -> Math.abs(animal.getEnergy() - highestEnergy) < 1e-4))
                         .collect(Collectors.toList());
                 int n = highestEnergyAnimals.size();
                 for (Animal animal : highestEnergyAnimals) {
                     animal.addEnergy(plantEnergy / n);
                 }
+                System.out.println("Plant eaten at " + location.toString() + " by " + animals.get(0).toString());
             }
         }
     }
@@ -133,19 +137,8 @@ public class Simulation {
     public void start(){
         addInitialAnimals();
         try {
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
-            simulateOneDay();
+            for (int i = 0; i < 25; i++)
+                simulateOneDay();
         } catch (SimulationErrorException e){
             System.out.println(e.toString());
         }
@@ -153,15 +146,16 @@ public class Simulation {
 
     public void simulateOneDay() throws SimulationErrorException{
         currentDay++;
-        System.out.println("Starting day "+ currentDay);
+        System.out.println("\nSTARTING DAY"+ currentDay + "\n=======================================");
         try {
-            System.out.println("Moving animals");
+
+            System.out.println("\nMoving animals\n=======================================");
             moveAnimals();
-            System.out.println("Eating plants");
+            System.out.println("\nEating plants\n=======================================");
             eatPlants();
-            System.out.println("Reproducing animals");
+            System.out.println("\nReproducing animals\n=======================================");
             reproduceAnimals();
-            System.out.println("Adding plants");
+            System.out.println("\nAdding plants\n=======================================");
             addPlants();
         } catch(AnimalStateException e){
             throw new SimulationErrorException("AnimalStateException: "+ e.toString(),this);
@@ -169,6 +163,8 @@ public class Simulation {
             throw new SimulationErrorException("UnplantingUnplantedLocationException: " + e.toString(),this);
         }
     }
+
+
 
     public int getCurrentDay() {
         return currentDay;

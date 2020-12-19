@@ -19,7 +19,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        Simulation simulation = new Simulation("Sysad",100,122,0.3,10,40,22, 100);
+        Simulation simulation = new Simulation("Sysad",3,3,0.3,5,100,8, 100);
         simulation.start();
         //launch(args);
     }
