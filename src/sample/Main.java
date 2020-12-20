@@ -13,17 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("initialParamsWindow.fxml"));
-        Parent root = loader.load();
-        stage.setTitle("Evolution Simulator");
-        stage.setScene(new Scene(root));
-        stage.setResizable(false);
-        stage.show();
-        InitialParamsWindowController controller = loader.getController();
-        Button startButton = controller.getStartSimulationButton();
-        startButton.addEventHandler(ActionEvent.ACTION,e -> {
 
-        });
     }
 
 
