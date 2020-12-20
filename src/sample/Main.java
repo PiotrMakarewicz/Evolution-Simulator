@@ -1,9 +1,11 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import simulation.Simulation;
 
@@ -11,11 +13,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Parent loader = FXMLLoader.load(getClass().getResource("initialParamsWindow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("initialParamsWindow.fxml"));
+        Parent root = loader.load();
         stage.setTitle("Evolution Simulator");
-        stage.setScene(new Scene(loader));
+        stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
+        InitialParamsWindowController controller = loader.getController();
+        Button startButton = controller.getStartSimulationButton();
+        startButton.addEventHandler(ActionEvent.ACTION,e -> {
+
+        });
     }
 
 
