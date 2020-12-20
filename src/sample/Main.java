@@ -10,17 +10,19 @@ import simulation.Simulation;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+    public void start(Stage stage) throws Exception{
+        Parent loader = FXMLLoader.load(getClass().getResource("initialParamsWindow.fxml"));
+        stage.setTitle("Evolution Simulator");
+        stage.setScene(new Scene(loader));
+        stage.setResizable(false);
+        stage.show();
     }
 
 
     public static void main(String[] args) {
-        Simulation simulation = new Simulation("Sysad",3,3,0.3,5,100,8, 100);
-        simulation.start();
+        launch(args);
+        // Simulation simulation = new Simulation("Sysad",3,3,0.3,5,100,8, 100);
+        // simulation.start();
         //launch(args);
     }
 }

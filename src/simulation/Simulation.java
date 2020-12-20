@@ -29,7 +29,7 @@ public class Simulation {
         this.jungle = new Jungle(width,height,jungleRatio);
         this.moveEnergy = moveEnergy;
         this.plantEnergy = plantEnergy;
-        this.minimalReproduceEnergy = 2*moveEnergy;
+        this.minimalReproduceEnergy = initialEnergy/2;
         this.initialAnimalsNum = initialAnimalsNum;
     }
 
@@ -66,7 +66,7 @@ public class Simulation {
     }
 
     public Location toBoardLimits(Location location){
-        return new Location(location.getX()%width, location.getY()%height);
+        return new Location((location.getX()+width)%width, (location.getY()+height)%height);
     }
     public void eatPlants() throws UnplantingUnplantedLocationException{
         for (Location location : plantBoard.getPlantedLocations()) {
@@ -146,9 +146,8 @@ public class Simulation {
 
     public void simulateOneDay() throws SimulationErrorException{
         currentDay++;
-        System.out.println("\nSTARTING DAY"+ currentDay + "\n=======================================");
+        System.out.println("\nSTARTING DAY "+ currentDay + "\n=======================================");
         try {
-
             System.out.println("\nMoving animals\n=======================================");
             moveAnimals();
             System.out.println("\nEating plants\n=======================================");
