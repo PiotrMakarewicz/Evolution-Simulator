@@ -15,18 +15,22 @@ public class Simulation {
     public final PlantBoard plantBoard = new PlantBoard();
     private final int width;
     private final int height;
-    private final Jungle jungle;
+    public final Jungle jungle;
     private final double moveEnergy;
     private final double plantEnergy;
     private final int initialAnimalsNum;
     private final double initialEnergy;
 
-    public Simulation(String name, int width, int height, double jungleRatio, double moveEnergy, double plantEnergy, int initialAnimalsNum, double initialEnergy) {
+    public Simulation(String name, int width, int height, double jungleRatio, double moveEnergy, double plantEnergy, int initialAnimalsNum, double initialEnergy) throws InvalidStartingParametersException{
         this.name = name;
         this.width = width;
         this.height = height;
         this.initialEnergy = initialEnergy;
-        this.jungle = new Jungle(width,height,jungleRatio);
+        try {
+            this.jungle = new Jungle(width, height, jungleRatio);
+        } catch(InvalidRectangleException e){
+            throw new InvalidStartingParametersException(e.toString() + " This may have occurred due to jungleRatio or board dimensions being too small.");
+        }
         this.moveEnergy = moveEnergy;
         this.plantEnergy = plantEnergy;
         this.minimalReproduceEnergy = initialEnergy/2;
@@ -38,12 +42,12 @@ public class Simulation {
         boolean plantedOutsideJungle = false;
         while (!plantedInJungle || !plantedOutsideJungle){
             Location location = Location.getRandom(width,height);
-            if(jungle.contains(location) && !plantedInJungle){
+            if(jungle.contains(location) && !plantedInJungle && animalBoard.noAnimalsAt(location)){
                 plantBoard.plant(location);
                 System.out.println("Added in-jungle plant at "+location.toString());
                 plantedInJungle = true;
             }
-            else if(!jungle.contains(location) && !plantedOutsideJungle){
+            else if(!jungle.contains(location) && !plantedOutsideJungle && animalBoard.noAnimalsAt(location)){
                 plantBoard.plant(location);
                 System.out.println("Added outside-jungle plant at "+location.toString());
                 plantedOutsideJungle = true;
@@ -136,12 +140,6 @@ public class Simulation {
 
     public void start(){
         addInitialAnimals();
-        try {
-            for (int i = 0; i < 25; i++)
-                simulateOneDay();
-        } catch (SimulationErrorException e){
-            System.out.println(e.toString());
-        }
     }
 
     public void simulateOneDay() throws SimulationErrorException{
@@ -171,5 +169,13 @@ public class Simulation {
 
     public String getName() {
         return name;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

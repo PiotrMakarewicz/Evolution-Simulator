@@ -5,11 +5,12 @@ public class Jungle {
     private final int x2;
     private final int y1;
     private final int y2;
-    Jungle(int boardWidth, int boardHeight, double jungleratio){
-        this.x1 = (int) Math.round((1.0 - jungleratio)*0.5*boardWidth);
-        this.x2 = (int) Math.round((1.0 + jungleratio)*0.5*boardWidth);
-        this.y1 = (int) Math.round((1.0 - jungleratio)*0.5*boardHeight);
-        this.y2 = (int) Math.round((1.0 + jungleratio)*0.5*boardWidth);
+    Jungle(int boardWidth, int boardHeight, double jungleRatio) throws InvalidRectangleException{
+        this(
+                (int) Math.round((1.0 - Math.sqrt(jungleRatio))*0.5*boardWidth),
+                (int) Math.round((1.0 + Math.sqrt(jungleRatio))*0.5*boardWidth),
+                (int) Math.round((1.0 - Math.sqrt(jungleRatio))*0.5*boardHeight),
+                (int) Math.round((1.0 + Math.sqrt(jungleRatio))*0.5*boardHeight));
     }
 
     Jungle(int x1, int y1, int x2, int y2) throws InvalidRectangleException{
