@@ -62,7 +62,7 @@ public class StatsWatcher {
                 "\nPlants: " + getPlantsNum() +
                 "\nAverage energy: " + toTwoDecimalPlaces(getAverageEnergy()) +
                 "\nAverage children number: " + toTwoDecimalPlaces(getAverageChildrenNumber()) +
-                "\nAverage life expectancy for dead animals: " + toTwoDecimalPlaces(getAverageLifeExpectancy()) +
+                "\nAverage life expectancy: " + toTwoDecimalPlaces(getAverageLifeExpectancy()) +
                 "\nDominating genome: " + (getDominatingGenome().isPresent() ? getDominatingGenome().get(): "none")+
                 "\nAnimals with dominating genome: " + getAnimalsWithDominatingGenome().size();
     }

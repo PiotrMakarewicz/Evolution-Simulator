@@ -8,9 +8,7 @@ import java.util.stream.Collectors;
 
 public class PlantBoard {
     private AbstractMap<Location,Integer> plantedSpots = new TreeMap<Location,Integer>();
-    public void plant(int x, int y){
-        plant(new Location(x,y));
-    }
+
     public void plant(Location location){
         if (!isPlanted(location))
             getPlantedSpots().put(location,1);
@@ -25,9 +23,6 @@ public class PlantBoard {
         }
     }
 
-    public void unplant(int x, int y) throws UnplantingUnplantedLocationException{
-        unplant(new Location(x,y));
-    }
     public boolean isPlanted(int x, int y){
         return isPlanted(new Location(x,y));
     }

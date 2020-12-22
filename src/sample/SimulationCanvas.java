@@ -1,13 +1,19 @@
 package sample;
 
+import javafx.scene.image.Image;
 import javafx.scene.canvas.Canvas;
 import simulation.Location;
 import simulation.Simulation;
+
+
+import java.util.List;
 
 public class SimulationCanvas extends Canvas {
     private final Simulation simulation;
     private final TerrainTileFactory terrainTileFactory;
     private final AnimalTileFactory animalTileFactory;
+    private final int tileSize = 10;
+    private final Image highlightAnimalImage = new Image("images/highlight-animal.png");
 
     SimulationCanvas(Simulation simulation){
         super(simulation.getWidth()*10,simulation.getHeight()*10);
@@ -51,10 +57,17 @@ public class SimulationCanvas extends Canvas {
 
     }
     private void drawTile(int x, int y, Tile tile){
-        int tileSize = 10;
         int drawX = x* tileSize;
         int drawY = y* tileSize;
         this.getGraphicsContext2D().drawImage(tile.getImage(),drawX,drawY);
+    }
+
+    public void highlightLocations(List<Location> locations){
+        for (Location location :locations){
+            int x = location.getX()*tileSize;
+            int y = location.getY()*tileSize;
+            this.getGraphicsContext2D().drawImage(highlightAnimalImage,x,y);
+        }
     }
 
 }

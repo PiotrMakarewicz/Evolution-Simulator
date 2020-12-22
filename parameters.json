@@ -1,6 +1,6 @@
 {
-  "width": 15,
-  "height": 15,
+  "width": 20,
+  "height": 20,
   "jungleRatio": 0.1,
   "moveEnergy": 1.0,
   "initialEnergy": 100.0,

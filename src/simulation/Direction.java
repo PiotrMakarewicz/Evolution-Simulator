@@ -20,13 +20,9 @@ public enum Direction {
     public Direction shiftedBy(int step){
         return Direction.values()[(this.ordinal()+step)%8];
     }
-
-
-
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }

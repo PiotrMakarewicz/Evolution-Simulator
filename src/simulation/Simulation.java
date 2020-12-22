@@ -20,8 +20,8 @@ public class Simulation {
     private final double plantEnergy;
     private final int initialAnimalsNum;
     private final double initialEnergy;
-    private List<Location> eatenPlants = new ArrayList<Location>();
-    private List<Location> previousAnimalLocations = new ArrayList<Location>();
+    private List<Location> eatenPlants = new ArrayList<>();
+    private List<Location> previousAnimalLocations = new ArrayList<>();
 
     public Simulation(String name, int width, int height, double jungleRatio, double moveEnergy, double plantEnergy, int initialAnimalsNum, double initialEnergy) throws InvalidStartingParametersException{
         this.name = name;
@@ -94,7 +94,6 @@ public class Simulation {
                 }
                 plantBoard.unplant(location);
                 eatenPlants.add(location);
-                //System.out.println("Plant eaten at " + location.toString() + " by " + animals.get(0).toString());
             }
         }
     }
@@ -134,7 +133,7 @@ public class Simulation {
             }
         }
         if (candidateDirections.isEmpty()) {
-           candidateDirections = Arrays.stream(Direction.values()).collect(Collectors.toList());;
+           candidateDirections = Arrays.stream(Direction.values()).collect(Collectors.toList());
         }
         return toBoardLimits(location.stepTo(candidateDirections.get(rng.nextInt(candidateDirections.size()))));
     }
@@ -150,15 +149,10 @@ public class Simulation {
 
     public void simulateOneDay() throws SimulationErrorException{
         currentDay++;
-        System.out.println("\nSTARTING DAY "+ currentDay + "\n=======================================");
         try {
-            //System.out.println("\nMoving animals\n=======================================");
             moveAnimals();
-            //System.out.println("\nEating plants\n=======================================");
             eatPlants();
-            //System.out.println("\nReproducing animals\n=======================================");
             reproduceAnimals();
-            //System.out.println("\nAdding plants\n=======================================");
             addPlants();
         } catch(AnimalStateException e){
             throw new SimulationErrorException("AnimalStateException: "+ e.toString(),this);

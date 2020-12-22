@@ -19,7 +19,6 @@ public class Animal{
         this.genome = new Genome();
         this.location = location;
         this.direction = Direction.values()[(new Random(System.nanoTime()).nextInt(8))];
-        //System.out.println("Spawning "+this.toString()+" at "+location.toString());
     };
 
     Animal(Animal parent1, Animal parent2, int birthDay, Location location){
@@ -30,11 +29,9 @@ public class Animal{
         this.direction = Direction.values()[(new Random(System.nanoTime()).nextInt(8))];
         parent1.children.add(this);
         parent2.children.add(this);
-        //System.out.println("Born "+this.toString()+", child of "+parent1.toString()+" and "+parent2.toString()+", at "+location);
     }
 
     public void die(int deathDay) throws AnimalStateException {
-        //System.out.println(this.toString()+" dies at "+this.location);
         if (!this.isAlive())
             throw new AnimalStateException("Trying to kill a dead animal: " + this.toString());
         this.energy = 0;
@@ -42,7 +39,6 @@ public class Animal{
     }
     public void shift() {
         direction = direction.shiftedBy(genome.pickRandomGene());
-        //System.out.println(this.toString() + " shifts to " + this.direction);
     }
 
     public int getBirthDay() {
