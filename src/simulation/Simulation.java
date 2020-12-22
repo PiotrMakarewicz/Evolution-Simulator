@@ -46,12 +46,12 @@ public class Simulation {
             Location location = Location.getRandom(width,height);
             if(jungle.contains(location) && !plantedInJungle){
                 plantBoard.plant(location);
-                System.out.println("Added in-jungle plant at "+location.toString());
+                //System.out.println("Added in-jungle plant at "+location.toString());
                 plantedInJungle = true;
             }
             else if(!jungle.contains(location) && !plantedOutsideJungle){
                 plantBoard.plant(location);
-                System.out.println("Added outside-jungle plant at "+location.toString());
+                //System.out.println("Added outside-jungle plant at "+location.toString());
                 plantedOutsideJungle = true;
             }
         }
@@ -65,7 +65,7 @@ public class Simulation {
                 animal.die(currentDay);
                 animalBoard.markAsDead(animal);
             } else {
-                System.out.println("Moving "+animal.toString()+" from " + animal.getLocation() +" to "+toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
+                //System.out.println("Moving "+animal.toString()+" from " + animal.getLocation() +" to "+toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
                 animal.shift();
                 animal.setLocation(toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
             }
@@ -94,7 +94,7 @@ public class Simulation {
                 }
                 plantBoard.unplant(location);
                 eatenPlants.add(location);
-                System.out.println("Plant eaten at " + location.toString() + " by " + animals.get(0).toString());
+                //System.out.println("Plant eaten at " + location.toString() + " by " + animals.get(0).toString());
             }
         }
     }
@@ -152,13 +152,13 @@ public class Simulation {
         currentDay++;
         System.out.println("\nSTARTING DAY "+ currentDay + "\n=======================================");
         try {
-            System.out.println("\nMoving animals\n=======================================");
+            //System.out.println("\nMoving animals\n=======================================");
             moveAnimals();
-            System.out.println("\nEating plants\n=======================================");
+            //System.out.println("\nEating plants\n=======================================");
             eatPlants();
-            System.out.println("\nReproducing animals\n=======================================");
+            //System.out.println("\nReproducing animals\n=======================================");
             reproduceAnimals();
-            System.out.println("\nAdding plants\n=======================================");
+            //System.out.println("\nAdding plants\n=======================================");
             addPlants();
         } catch(AnimalStateException e){
             throw new SimulationErrorException("AnimalStateException: "+ e.toString(),this);

@@ -9,7 +9,7 @@ public class AnimalBoard {
     private List<Animal> deadAnimals = new ArrayList<>();
 
     public List<Animal> getAllAlive(){
-        List<Animal> allAnimals = new ArrayList<Animal>();
+        List<Animal> allAnimals = new ArrayList<>();
         for (List<Animal> locationAnimals : locationAnimalMap.values()){
             allAnimals = Stream.concat(allAnimals.stream(),locationAnimals.stream()).collect(Collectors.toList());
         }
@@ -83,5 +83,9 @@ public class AnimalBoard {
                 insert(animal);
             }
         }
+    }
+
+    public List<Animal> getAllDead() {
+        return deadAnimals;
     }
 }

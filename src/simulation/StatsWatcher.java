@@ -1,10 +1,6 @@
 package simulation;
 
-import java.sql.SQLOutput;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StatsWatcher {
@@ -23,7 +19,7 @@ public class StatsWatcher {
         double totalEnergy = animals.stream().map(Animal::getEnergy).reduce(0.0, Double::sum);
         return totalEnergy/animals.size();
     }
-    public Genome getDominatingGenome(){
+    public Optional<Genome> getDominatingGenome(){
         Map<Genome,Integer> occurrences = new TreeMap<>();
         for (Animal animal : simulation.animalBoard.getAllAlive()){
             Genome genome = animal.getGenome();
@@ -32,7 +28,7 @@ public class StatsWatcher {
             }
             else occurrences.put(genome,occurrences.get(genome)+1);
         }
-        return occurrences.keySet().stream().max(Comparator.comparingInt(occurrences::get)).get();
+        return occurrences.keySet().stream().max(Comparator.comparingInt(occurrences::get));
     }
     public double getAverageChildrenNumber(){
         return simulation.animalBoard.getAllAlive().stream()
@@ -42,19 +38,32 @@ public class StatsWatcher {
                 /simulation.animalBoard.getAllAlive().size();
     }
     public List<Animal> getAnimalsWithDominatingGenome(){
-        return simulation.animalBoard.getAllAlive().stream()
-                .filter(a -> a.getGenome().equals(getDominatingGenome()))
+        if(getDominatingGenome().isPresent())
+            return simulation.animalBoard.getAllAlive().stream()
+                .filter(a -> a.getGenome().equals(getDominatingGenome().get()))
                 .collect(Collectors.toList());
+        else return new ArrayList<>();
     }
 
-    public void printStats(){
-        System.out.println("\nSimulation "+ simulation.name+" statistics:");
-        System.out.println("=======================================");
-        System.out.println("Alive animals: " +getAliveAnimalsNum());
-        System.out.println("Plants: "+getPlantsNum());
-        System.out.println("Average energy: "+getAverageEnergy());
-        System.out.println("Dominating genome: "+getDominatingGenome());
-        System.out.println("Average children number:"+getAverageChildrenNumber());
-        System.out.println("Animals with dominating genome: "+getAnimalsWithDominatingGenome());
+    public double getAverageLifeExpectancy(){
+        if (simulation.animalBoard.getAllDead().isEmpty())
+            return 0;
+        else return ((Integer)simulation.animalBoard.getAllDead()
+                .stream().mapToInt(a -> a.getDeathDay() - a.getBirthDay())
+                .sum()).doubleValue() / simulation.animalBoard.getAllDead().size();
+    }
+    public double toTwoDecimalPlaces(double v){
+        return ((Long)Math.round(v*100)).doubleValue()/100;
+    }
+
+    public String getSummary(){
+        return  "Current day: " + simulation.getCurrentDay() +
+                "\nAlive animals: " + getAliveAnimalsNum() +
+                "\nPlants: " + getPlantsNum() +
+                "\nAverage energy: " + toTwoDecimalPlaces(getAverageEnergy()) +
+                "\nAverage children number: " + toTwoDecimalPlaces(getAverageChildrenNumber()) +
+                "\nAverage life expectancy for dead animals: " + toTwoDecimalPlaces(getAverageLifeExpectancy()) +
+                "\nDominating genome: " + (getDominatingGenome().isPresent() ? getDominatingGenome().get(): "none")+
+                "\nAnimals with dominating genome: " + getAnimalsWithDominatingGenome().size();
     }
 }

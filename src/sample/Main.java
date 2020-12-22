@@ -1,10 +1,16 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import simulation.Simulation;
 import simulation.SimulationErrorException;
@@ -14,45 +20,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Simulation s1 = ParametersLoader.load("parameters.json");
-        displaySimulation(s1,stage);
-    }
-
-    public void displaySimulation(Simulation simulation, Stage stage) throws InterruptedException, SimulationErrorException {
-        final Group root = new Group();
-        final double width = simulation.getWidth()*10;
-        final double height = simulation.getHeight()*10;
-        final Scene simulationScene = new Scene(root, width, height, Color.BLACK);
-
-        final StatsWatcher statsWatcher = new StatsWatcher(simulation);
-        final SimulationCanvas canvas = new SimulationCanvas(simulation);
-
-        root.getChildren().add(canvas);
-        stage.setScene(simulationScene);
-        stage.setResizable(false);
-
-        simulation.start();
-        canvas.drawBackground();
-        canvas.update();
-        stage.show();
-        Task<Integer> task = new Task<>() {
-            @Override protected Integer call() throws Exception {
-                int iterations;
-                for (iterations = 0; true; iterations++) {
-                    if (isCancelled()) {
-                        break;
-                    }
-                    simulation.simulateOneDay();
-                    System.out.println("CANVAS UPDATE start");
-                    canvas.update();
-                    statsWatcher.printStats();
-                    Thread.sleep(100);
-                }
-                return iterations;
-            }
-        };
-        Thread th = new Thread(task);
-        th.start();
+        SimulationThread t1 = new SimulationThread(ParametersLoader.load("parameters.json"));
+        SimulationThread t2 = new SimulationThread(ParametersLoader.load("parameters.json"));
+        t1.start();
+        t2.start();
     }
 
     public static void main(String[] args) {
