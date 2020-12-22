@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -18,7 +20,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Simulation s1 = new Simulation("Symulacja",50,50,0.2,12,22,13,200);
+        Simulation s1 = new Simulation("Symulacja",15,15,0.1,2,50,8,80);
         displaySimulation(s1,stage);
     }
 
@@ -33,14 +35,28 @@ public class Main extends Application {
         root.getChildren().add(canvas);
         stage.setScene(simulationScene);
         stage.setResizable(false);
-        simulation.start();
-        stage.show();
 
-        for (int i = 0; i<100; i++){
-            canvas.update();
-            Thread.sleep(1000);
-            simulation.simulateOneDay();
-        }
+        simulation.start();
+        canvas.update();
+        stage.show();
+        Task<Integer> task = new Task<>() {
+            @Override protected Integer call() throws Exception {
+                int iterations;
+                for (iterations = 0; iterations < 100000; iterations++) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    simulation.simulateOneDay();
+                    canvas.update();
+                    System.out.println("CANVAS UPDATE");
+                    Thread.sleep(50);
+                }
+                return iterations;
+            }
+        };
+        Thread th = new Thread(task);
+        th.start();
+
 
     }
 

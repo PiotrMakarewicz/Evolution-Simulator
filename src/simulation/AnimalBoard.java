@@ -44,6 +44,13 @@ public class AnimalBoard {
             locationAnimalMap.remove(locationToRemove);
         }
     }
+    public boolean noAnimalsAt(int x, int y){
+        return noAnimalsAt(new Location(x,y));
+    }
+
+    public List<Location> getAnimalLocations(){
+        return this.locationAnimalMap.keySet().stream().collect(Collectors.toList());
+    }
 
     public boolean noAnimalsAt(Location location){
         return locationAnimalMap.get(location) == null;

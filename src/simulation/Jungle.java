@@ -8,8 +8,8 @@ public class Jungle {
     Jungle(int boardWidth, int boardHeight, double jungleRatio) throws InvalidRectangleException{
         this(
                 (int) Math.round((1.0 - Math.sqrt(jungleRatio))*0.5*boardWidth),
-                (int) Math.round((1.0 + Math.sqrt(jungleRatio))*0.5*boardWidth),
                 (int) Math.round((1.0 - Math.sqrt(jungleRatio))*0.5*boardHeight),
+                (int) Math.round((1.0 + Math.sqrt(jungleRatio))*0.5*boardWidth),
                 (int) Math.round((1.0 + Math.sqrt(jungleRatio))*0.5*boardHeight));
     }
 

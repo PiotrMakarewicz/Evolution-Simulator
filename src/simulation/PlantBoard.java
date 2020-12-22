@@ -12,14 +12,7 @@ public class PlantBoard {
         plant(new Location(x,y));
     }
     public void plant(Location location){
-        if (isPlanted(location)){
-            int plantsNum = getPlantedSpots().get(location);
-            getPlantedSpots().remove(location);
-            getPlantedSpots().put(location,plantsNum+1);
-        }
-        else{
-            getPlantedSpots().put(location,1);
-        }
+        getPlantedSpots().put(location,1);
     }
     public void unplant(Location location) throws UnplantingUnplantedLocationException{
         if (! isPlanted(location)){
@@ -27,11 +20,7 @@ public class PlantBoard {
                     + "x: " + location.getX() + "y: "+ location.getY()  + "\n");
         }
         else {
-            int plantsNum = getPlantedSpots().get(location);
             getPlantedSpots().remove(location);
-            if (plantsNum != 1){
-                getPlantedSpots().put(location,plantsNum-1);
-            }
         }
     }
 

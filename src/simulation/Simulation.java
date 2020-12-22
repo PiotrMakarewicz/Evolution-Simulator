@@ -74,9 +74,9 @@ public class Simulation {
     }
     public void eatPlants() throws UnplantingUnplantedLocationException{
         for (Location location : plantBoard.getPlantedLocations()) {
-            plantBoard.unplant(location);
             List<Animal> animals = animalBoard.get(location);
             if (!animals.isEmpty()) {
+                plantBoard.unplant(location);
                 double highestEnergy = animals.stream()
                         .max(new AnimalEnergyComparator())
                         .get()
