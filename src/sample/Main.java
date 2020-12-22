@@ -20,7 +20,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Simulation s1 = new Simulation("Symulacja",15,15,0.1,2,50,8,80);
+        Simulation s1 = new Simulation("Symulacja",100,100,0.1,1,100,8,80);
         displaySimulation(s1,stage);
     }
 
@@ -37,6 +37,7 @@ public class Main extends Application {
         stage.setResizable(false);
 
         simulation.start();
+        canvas.drawBackground();
         canvas.update();
         stage.show();
         Task<Integer> task = new Task<>() {
@@ -46,10 +47,12 @@ public class Main extends Application {
                     if (isCancelled()) {
                         break;
                     }
+                    System.out.println("Simulation");
                     simulation.simulateOneDay();
+                    System.out.println("CANVAS UPDATE start");
                     canvas.update();
-                    System.out.println("CANVAS UPDATE");
-                    Thread.sleep(50);
+                    System.out.println("CANVAS UPDATE done");
+                    Thread.sleep(100);
                 }
                 return iterations;
             }

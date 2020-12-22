@@ -7,13 +7,13 @@ public enum TerrainTile implements Tile{
     JUNGLEPLANTED("images/jungle-tile-planted.png"),
     SAVANNAH("images/savannah-tile.png"),
     SAVANNAHPLANTED("images/savannah-tile-planted.png");
-    private final String imagePath;
+    private final Image image;
 
     TerrainTile(String imagePath){
-        this.imagePath = imagePath;
+        this.image = new Image(imagePath);
     }
 
     public Image getImage(){
-        return new Image(this.imagePath);
+        return this.image;
     }
 }

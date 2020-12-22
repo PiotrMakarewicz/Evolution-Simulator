@@ -20,6 +20,8 @@ public class Simulation {
     private final double plantEnergy;
     private final int initialAnimalsNum;
     private final double initialEnergy;
+    private List<Location> eatenPlants = new ArrayList<Location>();
+    private List<Location> previousAnimalLocations = new ArrayList<Location>();
 
     public Simulation(String name, int width, int height, double jungleRatio, double moveEnergy, double plantEnergy, int initialAnimalsNum, double initialEnergy) throws InvalidStartingParametersException{
         this.name = name;
@@ -56,6 +58,7 @@ public class Simulation {
     }
 
     private void moveAnimals() throws AnimalStateException {
+        previousAnimalLocations = animalBoard.getAnimalLocations();
         for (Animal animal : animalBoard.getAll()) {
             animal.setEnergy(animal.getEnergy()-moveEnergy);
             if (animal.getEnergy() < 0) {
@@ -73,10 +76,10 @@ public class Simulation {
         return new Location((location.getX()+width)%width, (location.getY()+height)%height);
     }
     public void eatPlants() throws UnplantingUnplantedLocationException{
+        eatenPlants = new ArrayList<>();
         for (Location location : plantBoard.getPlantedLocations()) {
             List<Animal> animals = animalBoard.get(location);
             if (!animals.isEmpty()) {
-                plantBoard.unplant(location);
                 double highestEnergy = animals.stream()
                         .max(new AnimalEnergyComparator())
                         .get()
@@ -88,6 +91,8 @@ public class Simulation {
                 for (Animal animal : highestEnergyAnimals) {
                     animal.addEnergy(plantEnergy / n);
                 }
+                plantBoard.unplant(location);
+                eatenPlants.add(location);
                 System.out.println("Plant eaten at " + location.toString() + " by " + animals.get(0).toString());
             }
         }
@@ -177,5 +182,13 @@ public class Simulation {
 
     public int getHeight() {
         return height;
+    }
+
+    public List<Location> getEatenPlants() {
+        return eatenPlants;
+    }
+
+    public List<Location> getPreviousAnimalLocations() {
+        return previousAnimalLocations;
     }
 }

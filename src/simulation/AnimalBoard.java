@@ -49,7 +49,7 @@ public class AnimalBoard {
     }
 
     public List<Location> getAnimalLocations(){
-        return this.locationAnimalMap.keySet().stream().collect(Collectors.toList());
+        return new ArrayList<>(this.locationAnimalMap.keySet());
     }
 
     public boolean noAnimalsAt(Location location){

@@ -13,14 +13,13 @@ public enum AnimalTile implements Tile{
     ANIMAL8("images/animal-8.png"),
     ANIMAL9("images/animal-9.png"),
     ANIMAL10("images/animal-10.png");
-
-    private final String imagePath;
+    private final Image image;
 
     AnimalTile(String imagePath){
-        this.imagePath = imagePath;
+        this.image = new Image(imagePath);
     }
 
     public Image getImage(){
-        return new Image(this.imagePath);
+        return this.image;
     }
 }
