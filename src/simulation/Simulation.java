@@ -44,12 +44,12 @@ public class Simulation {
         boolean plantedOutsideJungle = false;
         while (!plantedInJungle || !plantedOutsideJungle){
             Location location = Location.getRandom(width,height);
-            if(jungle.contains(location) && !plantedInJungle && animalBoard.noAnimalsAt(location)){
+            if(jungle.contains(location) && !plantedInJungle){
                 plantBoard.plant(location);
                 System.out.println("Added in-jungle plant at "+location.toString());
                 plantedInJungle = true;
             }
-            else if(!jungle.contains(location) && !plantedOutsideJungle && animalBoard.noAnimalsAt(location)){
+            else if(!jungle.contains(location) && !plantedOutsideJungle){
                 plantBoard.plant(location);
                 System.out.println("Added outside-jungle plant at "+location.toString());
                 plantedOutsideJungle = true;
@@ -59,10 +59,11 @@ public class Simulation {
 
     private void moveAnimals() throws AnimalStateException {
         previousAnimalLocations = animalBoard.getAnimalLocations();
-        for (Animal animal : animalBoard.getAll()) {
+        for (Animal animal : animalBoard.getAllAlive()) {
             animal.setEnergy(animal.getEnergy()-moveEnergy);
             if (animal.getEnergy() < 0) {
                 animal.die(currentDay);
+                animalBoard.markAsDead(animal);
             } else {
                 System.out.println("Moving "+animal.toString()+" from " + animal.getLocation() +" to "+toBoardLimits(animal.getLocation().stepTo(animal.getDirection())));
                 animal.shift();

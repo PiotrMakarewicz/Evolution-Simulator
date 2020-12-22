@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import simulation.Simulation;
 import simulation.SimulationErrorException;
+import simulation.StatsWatcher;
 
 public class Main extends Application {
 
@@ -18,11 +19,12 @@ public class Main extends Application {
     }
 
     public void displaySimulation(Simulation simulation, Stage stage) throws InterruptedException, SimulationErrorException {
-        Group root = new Group();
-        double width = simulation.getWidth()*10;
-        double height = simulation.getHeight()*10;
-        Scene simulationScene = new Scene(root, width, height, Color.BLACK);
+        final Group root = new Group();
+        final double width = simulation.getWidth()*10;
+        final double height = simulation.getHeight()*10;
+        final Scene simulationScene = new Scene(root, width, height, Color.BLACK);
 
+        final StatsWatcher statsWatcher = new StatsWatcher(simulation);
         final SimulationCanvas canvas = new SimulationCanvas(simulation);
 
         root.getChildren().add(canvas);
@@ -40,11 +42,10 @@ public class Main extends Application {
                     if (isCancelled()) {
                         break;
                     }
-                    System.out.println("Simulation");
                     simulation.simulateOneDay();
                     System.out.println("CANVAS UPDATE start");
                     canvas.update();
-                    System.out.println("CANVAS UPDATE done");
+                    statsWatcher.printStats();
                     Thread.sleep(100);
                 }
                 return iterations;

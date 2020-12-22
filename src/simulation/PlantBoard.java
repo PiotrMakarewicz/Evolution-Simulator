@@ -12,7 +12,8 @@ public class PlantBoard {
         plant(new Location(x,y));
     }
     public void plant(Location location){
-        getPlantedSpots().put(location,1);
+        if (!isPlanted(location))
+            getPlantedSpots().put(location,1);
     }
     public void unplant(Location location) throws UnplantingUnplantedLocationException{
         if (! isPlanted(location)){

@@ -38,16 +38,17 @@ public class SimulationCanvas extends Canvas {
                 drawTile(x,y,terrainTileFactory.getTile(x,y));
             else drawTile(x,y,animalTileFactory.getTile(x,y));
         }
-        for (Location location : simulation.animalBoard.getAnimalLocations()){
-            int x = location.getX();
-            int y = location.getY();
-            drawTile(x,y,animalTileFactory.getTile(x,y));
-        }
         for (Location location : simulation.plantBoard.getPlantedLocations()){
             int x = location.getX();
             int y = location.getY();
             drawTile(x,y,terrainTileFactory.getTile(x,y));
         }
+        for (Location location : simulation.animalBoard.getAnimalLocations()){
+            int x = location.getX();
+            int y = location.getY();
+            drawTile(x,y,animalTileFactory.getTile(x,y));
+        }
+
     }
     private void drawTile(int x, int y, Tile tile){
         int tileSize = 10;

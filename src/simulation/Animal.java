@@ -11,9 +11,9 @@ public class Animal{
     private Direction direction;
     private double energy;
     private Location location;
+    private List<Animal> children = new ArrayList<>();
 
     Animal(double energy, int birthDay, Location location){
-
         this.birthDay = birthDay;
         this.energy = energy;
         this.genome = new Genome();
@@ -23,12 +23,13 @@ public class Animal{
     };
 
     Animal(Animal parent1, Animal parent2, int birthDay, Location location){
-
         this.genome = new Genome(parent1.getGenome(), parent2.getGenome());
         this.energy = parent1.energy / 4 + parent2.energy / 4;
         this.birthDay = birthDay;
         this.location = location;
         this.direction = Direction.values()[(new Random(System.nanoTime()).nextInt(8))];
+        parent1.children.add(this);
+        parent2.children.add(this);
         System.out.println("Born "+this.toString()+", child of "+parent1.toString()+" and "+parent2.toString()+", at "+location);
     }
 
@@ -86,5 +87,9 @@ public class Animal{
     public String toString() {
         return genome.toString() +
                 "-" + birthDay;
+    }
+
+    public List<Animal> getChildren() {
+        return children;
     }
 }

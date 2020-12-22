@@ -3,7 +3,7 @@ package simulation;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Genome {
+public class Genome implements Comparable<Genome>{
     private final List<Integer> genes;
     Genome(){
         Random rng = new Random();
@@ -15,12 +15,12 @@ public class Genome {
             }
         } while (! containsAllGenes(genes));
         this.genes = genes.stream().sorted().collect(Collectors.toList());
-    };
+    }
 
     Genome(Genome g0, Genome g1){
         Random rng = new Random(System.nanoTime());
-        List<Integer> genes = new ArrayList<Integer>();
-        List<Genome> parentGenomes = new ArrayList<Genome>();
+        List<Integer> genes = new ArrayList<>();
+        List<Genome> parentGenomes = new ArrayList<>();
         parentGenomes.add(g0);
         parentGenomes.add(g1);
         int breakpt1 = rng.nextInt(31);
@@ -33,13 +33,13 @@ public class Genome {
         genes.addAll(parentGenomes.get(secondPartFrom).genes.subList(breakpt1,breakpt2));
         genes.addAll(parentGenomes.get(thirdPartFrom).genes.subList(breakpt2,32));
         this.genes = Genome.addMissingGenes(genes).stream().sorted().collect(Collectors.toList());
-    };
+    }
 
     private static List<Integer> addMissingGenes(List<Integer> genes){
         while (getMissingGene(genes) != null){
-            AbstractSet<Integer> occurringGenes = new TreeSet<Integer>();
-            AbstractSet<Integer> repeatingGenes = new TreeSet<Integer>();
-            List<Integer> repeatingGeneIndices = new ArrayList<Integer>();
+            AbstractSet<Integer> occurringGenes = new TreeSet<>();
+            AbstractSet<Integer> repeatingGenes = new TreeSet<>();
+            List<Integer> repeatingGeneIndices = new ArrayList<>();
             for (Integer gene : genes){
                 if(occurringGenes.contains(gene)){
                     repeatingGenes.add(gene);
@@ -99,5 +99,22 @@ public class Genome {
             sb.append(gene);
         }
         return sb.toString();
+    }
+
+    public boolean equals(Genome g){
+        return this.hashCode() == g.hashCode();
+    }
+
+    public int hashCode(){
+        int hash = 0;
+        int multiplier = 1;
+        for (int gene : genes){
+            hash += multiplier*gene;
+        }
+        return hash;
+    }
+
+    public int compareTo(Genome g){
+        return this.hashCode()-g.hashCode();
     }
 }

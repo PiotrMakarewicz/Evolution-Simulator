@@ -6,8 +6,9 @@ import java.util.stream.Stream;
 
 public class AnimalBoard {
     private AbstractMap<Location, List<Animal>> locationAnimalMap = new TreeMap<>();
+    private List<Animal> deadAnimals = new ArrayList<>();
 
-    public List<Animal> getAll(){
+    public List<Animal> getAllAlive(){
         List<Animal> allAnimals = new ArrayList<Animal>();
         for (List<Animal> locationAnimals : locationAnimalMap.values()){
             allAnimals = Stream.concat(allAnimals.stream(),locationAnimals.stream()).collect(Collectors.toList());
@@ -29,6 +30,8 @@ public class AnimalBoard {
         return locationAnimalMap.keySet().stream().collect(Collectors.toList());
     }
 
+
+
     public void remove(Animal animal) {
         Location locationToRemove = null;
         for (Map.Entry<Location, List<Animal>> entry : locationAnimalMap.entrySet()) {
@@ -44,6 +47,12 @@ public class AnimalBoard {
             locationAnimalMap.remove(locationToRemove);
         }
     }
+
+    public void markAsDead(Animal animal){
+        remove(animal);
+        deadAnimals.add(animal);
+    }
+
     public boolean noAnimalsAt(int x, int y){
         return noAnimalsAt(new Location(x,y));
     }
@@ -67,7 +76,7 @@ public class AnimalBoard {
 
     }
     public void update(){
-        List<Animal> animals = this.getAll();
+        List<Animal> animals = this.getAllAlive();
         locationAnimalMap = new TreeMap<>();
         for (Animal animal : animals){
             if (animal.isAlive()){
