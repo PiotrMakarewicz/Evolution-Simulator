@@ -5,7 +5,7 @@ import simulation.AnimalEnergyComparator;
 import simulation.Simulation;
 
 public class AnimalTileFactory{
-    private Simulation simulation;
+    private final Simulation simulation;
     AnimalTileFactory(Simulation simulation){
         this.simulation = simulation;
     }

@@ -3,7 +3,7 @@ package sample;
 import simulation.Simulation;
 
 public class TerrainTileFactory {
-    private Simulation simulation;
+    private final Simulation simulation;
     TerrainTileFactory(Simulation simulation){
         this.simulation = simulation;
     }

@@ -1,16 +1,9 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import simulation.Simulation;
@@ -20,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Simulation s1 = new Simulation("Symulacja",100,100,0.1,1,100,8,80);
+        Simulation s1 = ParametersLoader.load("parameters.json");
         displaySimulation(s1,stage);
     }
 
@@ -43,7 +36,7 @@ public class Main extends Application {
         Task<Integer> task = new Task<>() {
             @Override protected Integer call() throws Exception {
                 int iterations;
-                for (iterations = 0; iterations < 100000; iterations++) {
+                for (iterations = 0; true; iterations++) {
                     if (isCancelled()) {
                         break;
                     }
@@ -59,14 +52,9 @@ public class Main extends Application {
         };
         Thread th = new Thread(task);
         th.start();
-
-
     }
 
     public static void main(String[] args) {
         launch(args);
-        // Simulation simulation = new Simulation("Sysad",3,3,0.3,5,100,8, 100);
-        // simulation.start();
-        //launch(args);
     }
 }

@@ -4,8 +4,6 @@ import javafx.scene.canvas.Canvas;
 import simulation.Location;
 import simulation.Simulation;
 
-import java.util.Locale;
-
 public class SimulationCanvas extends Canvas {
     private final Simulation simulation;
     private final TerrainTileFactory terrainTileFactory;
@@ -56,7 +54,6 @@ public class SimulationCanvas extends Canvas {
         int drawX = x* tileSize;
         int drawY = y* tileSize;
         this.getGraphicsContext2D().drawImage(tile.getImage(),drawX,drawY);
-        //System.out.println("Drawing "+tile.toString()+" at "+drawX+" "+drawY);
     }
 
 }
