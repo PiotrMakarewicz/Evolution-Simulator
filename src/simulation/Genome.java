@@ -108,8 +108,11 @@ public class Genome implements Comparable<Genome>{
     public int hashCode(){
         int hash = 0;
         int multiplier = 1;
-        for (int gene : genes){
-            hash += multiplier*gene;
+        for (int i = 0; i < 31; i++){
+            if (genes.get(i)!=genes.get(i+1)){
+                multiplier*=8;
+            }
+            hash+=multiplier;
         }
         return hash;
     }

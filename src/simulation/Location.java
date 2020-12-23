@@ -6,7 +6,7 @@ public class Location implements Comparable<Location>{
     private final int x;
     private final int y;
 
-    Location(int x,int y){
+    public Location(int x, int y){
         this.x = x;
         this.y = y;
     }
@@ -52,8 +52,6 @@ public class Location implements Comparable<Location>{
 
     @Override
     public String toString() {
-        return "("+ x + " "
-                + y +
-                ')';
+        return x + ", " + y;
     }
 }

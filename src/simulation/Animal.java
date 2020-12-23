@@ -1,17 +1,15 @@
 package simulation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public class Animal{
+public class Animal implements Comparable<Animal>{
     private final int birthDay;
     private int deathDay = -1;
     private final Genome genome;
     private Direction direction;
     private double energy;
     private Location location;
-    private List<Animal> children = new ArrayList<>();
+    private final List<Animal> children = new ArrayList<>();
 
     Animal(double energy, int birthDay, Location location){
         this.birthDay = birthDay;
@@ -19,7 +17,7 @@ public class Animal{
         this.genome = new Genome();
         this.location = location;
         this.direction = Direction.values()[(new Random(System.nanoTime()).nextInt(8))];
-    };
+    }
 
     Animal(Animal parent1, Animal parent2, int birthDay, Location location){
         this.genome = new Genome(parent1.getGenome(), parent2.getGenome());
@@ -81,11 +79,39 @@ public class Animal{
 
     @Override
     public String toString() {
-        return genome.toString() +
-                "-" + birthDay;
+        return "Genome: " + genome + "\n"
+                + "Location: " + location + "\n"
+                + "Born on day: " + birthDay + "\n"
+                + (this.isAlive() ? "Energy: " + energy : "Died on day: " + deathDay) + "\n"
+                + "Children: " + getChildrenNumber() +"\n"
+                + "Ancestors: " + getAncestorsNumber();
     }
 
     public List<Animal> getChildren() {
         return children;
     }
+
+    public int compareTo(Animal a){
+        return this.hashCode() - a.hashCode();
+    }
+
+    public int getChildrenNumber(){
+        return this.children.size();
+    }
+
+    public int getAncestorsNumber(){
+        Set<Animal> visited = new TreeSet<>();
+        this.traverse(visited);
+        return visited.size() - 1;
+    }
+
+    public void traverse(Set<Animal> visited){
+        if(!visited.contains(this)){
+            visited.add(this);
+            for (Animal child : this.children){
+                child.traverse(visited);
+            }
+        }
+    }
+
 }
