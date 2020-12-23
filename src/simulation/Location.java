@@ -1,5 +1,7 @@
 package simulation;
 
+import simulation.exceptions.InvalidRectangleException;
+
 import java.util.Random;
 
 public class Location implements Comparable<Location>{

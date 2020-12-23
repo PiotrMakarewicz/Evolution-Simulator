@@ -1,10 +1,11 @@
 package simulation;
 
+import simulation.exceptions.UnplantingUnplantedLocationException;
+
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class PlantBoard {
     private AbstractMap<Location,Integer> plantedSpots = new TreeMap<Location,Integer>();
@@ -13,7 +14,7 @@ public class PlantBoard {
         if (!isPlanted(location))
             getPlantedSpots().put(location,1);
     }
-    public void unplant(Location location) throws UnplantingUnplantedLocationException{
+    public void unplant(Location location) throws UnplantingUnplantedLocationException {
         if (! isPlanted(location)){
             throw new UnplantingUnplantedLocationException("Trying to unplant an unplanted location"
                     + "x: " + location.getX() + "y: "+ location.getY()  + "\n");

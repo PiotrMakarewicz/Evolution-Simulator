@@ -1,5 +1,8 @@
-package sample;
+package application;
 
+import application.tiles.AnimalTileFactory;
+import application.tiles.TerrainTileFactory;
+import application.tiles.Tile;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.Canvas;
 import simulation.Animal;

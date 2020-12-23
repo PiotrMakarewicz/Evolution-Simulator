@@ -1,12 +1,19 @@
-package simulation;
+package simulation.stats;
+
+import simulation.Animal;
+import simulation.Genome;
+import simulation.Simulation;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class StatsWatcher {
     private final Simulation simulation;
+    public final Summarizer summarizer;
+
     public StatsWatcher(Simulation s){
         this.simulation = s;
+        this.summarizer = new Summarizer(s);
     }
     public int getAliveAnimalsNum(){
         return simulation.animalBoard.getAllAlive().size();
@@ -19,6 +26,7 @@ public class StatsWatcher {
         double totalEnergy = animals.stream().map(Animal::getEnergy).reduce(0.0, Double::sum);
         return totalEnergy/animals.size();
     }
+
     public Optional<Genome> getDominatingGenome(){
         Map<Genome,Integer> occurrences = new TreeMap<>();
         for (Animal animal : simulation.animalBoard.getAllAlive()){
@@ -30,6 +38,7 @@ public class StatsWatcher {
         }
         return occurrences.keySet().stream().max(Comparator.comparingInt(occurrences::get));
     }
+
     public double getAverageChildrenNumber(){
         return simulation.animalBoard.getAllAlive().stream()
                 .map(a -> a.getChildren().size())
@@ -37,6 +46,7 @@ public class StatsWatcher {
                 .doubleValue()
                 /simulation.animalBoard.getAllAlive().size();
     }
+
     public List<Animal> getAnimalsWithDominatingGenome(){
         if(getDominatingGenome().isPresent())
             return simulation.animalBoard.getAllAlive().stream()
@@ -52,17 +62,25 @@ public class StatsWatcher {
                 .stream().mapToInt(a -> a.getDeathDay() - a.getBirthDay())
                 .sum()).doubleValue() / simulation.animalBoard.getAllDead().size();
     }
+
     public double toTwoDecimalPlaces(double v){
-        return ((Long)Math.round(v*100)).doubleValue()/100;
+        return OutputUtils.toTwoDecimalPlaces(v);
     }
 
-    public String getSummary(){
+    public String getDailyStatsAndUpdateSummarizer(){
+        summarizer.add(new DailyStats(
+                simulation.getCurrentDay(),
+                getAliveAnimalsNum(),
+                getPlantsNum(),
+                getAverageEnergy(),
+                getAverageLifeExpectancy()
+        ));
         return  "Current day: " + simulation.getCurrentDay() +
                 "\nAlive animals: " + getAliveAnimalsNum() +
                 "\nPlants: " + getPlantsNum() +
-                "\nAverage energy: " + toTwoDecimalPlaces(getAverageEnergy()) +
-                "\nAverage children number: " + toTwoDecimalPlaces(getAverageChildrenNumber()) +
-                "\nAverage life expectancy: " + toTwoDecimalPlaces(getAverageLifeExpectancy()) +
+                "\nAverage energy: " + OutputUtils.toTwoDecimalPlaces(getAverageEnergy()) +
+                "\nAverage children number: " + OutputUtils.toTwoDecimalPlaces(getAverageChildrenNumber()) +
+                "\nAverage life expectancy: " + OutputUtils.toTwoDecimalPlaces(getAverageLifeExpectancy()) +
                 "\nDominating genome: " + (getDominatingGenome().isPresent() ? getDominatingGenome().get(): "none")+
                 "\nAnimals with dominating genome: " + getAnimalsWithDominatingGenome().size();
     }

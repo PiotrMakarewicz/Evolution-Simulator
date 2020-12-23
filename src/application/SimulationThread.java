@@ -1,8 +1,7 @@
-package sample;
+package application;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,8 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import simulation.Animal;
 import simulation.Simulation;
-import simulation.SimulationErrorException;
-import simulation.StatsWatcher;
+import simulation.exceptions.SimulationErrorException;
+import simulation.stats.StatsWatcher;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -31,6 +30,8 @@ public class SimulationThread extends Thread{
 
     private final Button pauseButton = createPauseButton();
     private final Button highlightButton = createHighlightButton();
+    private final Button endButton = createEndButton();
+    private final Stage stage = new Stage();
 
     public void run() {
         Platform.runLater(this::displaySimulation);
@@ -67,7 +68,7 @@ public class SimulationThread extends Thread{
                             e.printStackTrace();
                         }
                         canvas.update();
-                        statsLabel.setText(statsWatcher.getSummary());
+                        statsLabel.setText(statsWatcher.getDailyStatsAndUpdateSummarizer());
                     });
                 }
                 return iterations;
@@ -80,7 +81,6 @@ public class SimulationThread extends Thread{
     private void loadWindow() {
         final Group root = new Group();
         final Scene scene = new Scene(root, simulation.getWidth()*10+400, Math.max(simulation.getHeight()*10,350), Color.BLACK);
-        final Stage stage = new Stage();
 
         canvas = new SimulationCanvas(simulation);
         canvas.setLayoutX(400);
@@ -91,7 +91,7 @@ public class SimulationThread extends Thread{
         selectedAnimalLabel.setLayoutX(5);
         selectedAnimalLabel.setLayoutY(210);
         selectedAnimalLabel.setTextFill(Color.web("#FFFFFF"));
-        root.getChildren().addAll(statsLabel,selectedAnimalLabel,canvas,pauseButton,highlightButton);
+        root.getChildren().addAll(statsLabel,selectedAnimalLabel,canvas,pauseButton,highlightButton,endButton);
 
         stage.setScene(scene);
         stage.setTitle("Evolution Simulator");
@@ -131,8 +131,23 @@ public class SimulationThread extends Thread{
         button.setLayoutY(150);
         button.setOnMouseClicked(mouseEvent -> {
             paused.set(!paused.get());
-            highlightButton.setVisible(!this.highlightButton.isVisible());
+            highlightButton.setVisible(!highlightButton.isVisible());
+            endButton.setVisible(!endButton.isVisible());
         });
+        return button;
+    }
+
+    private Button createEndButton() {
+        Button button = new Button("End simulation");
+        button.setLayoutX(185);
+        button.setLayoutY(180);
+        button.setVisible(false);
+        button.setOnMouseClicked(mouseEvent -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,statsWatcher.summarizer.getSummary());
+            alert.setHeaderText("Simulation finished!");
+            alert.showAndWait();
+            stage.close();}
+        );
         return button;
     }
 

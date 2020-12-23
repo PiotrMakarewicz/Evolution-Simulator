@@ -1,10 +1,10 @@
-package sample;
+package application.tiles;
 
 import simulation.Simulation;
 
 public class TerrainTileFactory {
     private final Simulation simulation;
-    TerrainTileFactory(Simulation simulation){
+    public TerrainTileFactory(Simulation simulation){
         this.simulation = simulation;
     }
     public TerrainTile getTile(int x, int y){

@@ -1,6 +1,7 @@
 package simulation;
 
 import org.junit.jupiter.api.Test;
+import simulation.exceptions.InvalidRectangleException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

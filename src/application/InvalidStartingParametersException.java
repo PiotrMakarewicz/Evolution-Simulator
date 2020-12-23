@@ -1,7 +1,7 @@
-package simulation;
+package application;
 
 public class InvalidStartingParametersException extends Exception {
-    InvalidStartingParametersException(String errorMessage){
+    public InvalidStartingParametersException(String errorMessage){
         super(errorMessage);
     }
 }

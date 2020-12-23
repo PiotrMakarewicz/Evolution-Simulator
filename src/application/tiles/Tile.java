@@ -1,4 +1,4 @@
-package sample;
+package application.tiles;
 
 import javafx.scene.image.Image;
 

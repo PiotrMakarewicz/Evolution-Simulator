@@ -1,9 +1,8 @@
-package sample;
+package application;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import simulation.InvalidStartingParametersException;
 import simulation.Simulation;
 
 import java.io.IOException;

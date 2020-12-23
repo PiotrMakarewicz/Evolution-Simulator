@@ -1,4 +1,4 @@
-package sample;
+package application.tiles;
 
 import simulation.Animal;
 import simulation.AnimalEnergyComparator;
@@ -6,7 +6,7 @@ import simulation.Simulation;
 
 public class AnimalTileFactory{
     private final Simulation simulation;
-    AnimalTileFactory(Simulation simulation){
+    public AnimalTileFactory(Simulation simulation){
         this.simulation = simulation;
     }
     public AnimalTile getTile(int x, int y){

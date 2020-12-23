@@ -1,5 +1,7 @@
 package simulation;
 
+import simulation.exceptions.AnimalStateException;
+
 import java.util.*;
 
 public class Animal implements Comparable<Animal>{

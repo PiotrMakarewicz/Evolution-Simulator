@@ -1,4 +1,6 @@
-package simulation;
+package simulation.exceptions;
+
+import simulation.Simulation;
 
 public class SimulationErrorException extends Exception{
     public SimulationErrorException(String errorMessage, Simulation simulation) {

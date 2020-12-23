@@ -30,7 +30,10 @@ public class AnimalBoard {
         return new ArrayList<>(locationAnimalMap.keySet());
     }
 
-
+    public List<Animal> getAllAnimals(){
+        return Stream.concat(getAllAlive().stream(), getAllDead().stream())
+                .collect(Collectors.toList());
+    }
 
     public void remove(Animal animal) {
         Location locationToRemove = null;

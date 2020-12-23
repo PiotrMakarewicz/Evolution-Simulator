@@ -1,5 +1,11 @@
 package simulation;
 
+import application.InvalidStartingParametersException;
+import simulation.exceptions.AnimalStateException;
+import simulation.exceptions.InvalidRectangleException;
+import simulation.exceptions.SimulationErrorException;
+import simulation.exceptions.UnplantingUnplantedLocationException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +29,7 @@ public class Simulation {
     private List<Location> eatenPlants = new ArrayList<>();
     private List<Location> previousAnimalLocations = new ArrayList<>();
 
-    public Simulation(String name, int width, int height, double jungleRatio, double moveEnergy, double plantEnergy, int initialAnimalsNum, double initialEnergy) throws InvalidStartingParametersException{
+    public Simulation(String name, int width, int height, double jungleRatio, double moveEnergy, double plantEnergy, int initialAnimalsNum, double initialEnergy) throws InvalidStartingParametersException {
         this.name = name;
         this.width = width;
         this.height = height;
@@ -76,7 +82,7 @@ public class Simulation {
     public Location toBoardLimits(Location location){
         return new Location((location.getX()+width)%width, (location.getY()+height)%height);
     }
-    public void eatPlants() throws UnplantingUnplantedLocationException{
+    public void eatPlants() throws UnplantingUnplantedLocationException {
         eatenPlants = new ArrayList<>();
         for (Location location : plantBoard.getPlantedLocations()) {
             List<Animal> animals = animalBoard.get(location);
@@ -147,7 +153,7 @@ public class Simulation {
         addInitialAnimals();
     }
 
-    public void simulateOneDay() throws SimulationErrorException{
+    public void simulateOneDay() throws SimulationErrorException {
         currentDay++;
         try {
             moveAnimals();
@@ -160,8 +166,6 @@ public class Simulation {
             throw new SimulationErrorException("UnplantingUnplantedLocationException: " + e.toString(),this);
         }
     }
-
-
 
     public int getCurrentDay() {
         return currentDay;
@@ -185,5 +189,9 @@ public class Simulation {
 
     public List<Location> getPreviousAnimalLocations() {
         return previousAnimalLocations;
+    }
+
+    public int getInitialAnimalsNum() {
+        return initialAnimalsNum;
     }
 }
