@@ -1,5 +1,5 @@
 # Evolution-Simulator
-This is a homework project for my university's Object-Oriented Programming classes. The application simulates and displays development of an animal population. GUI created with JavaFX. See the requirements in Polish at: https://github.com/apohllo/obiektowe-lab/blob/master/proj1/Readme.md
+This is a homework project for my university's Object-Oriented Programming classes. The application simulates and displays development of an animal population. GUI created with JavaFX. Uses Gradle to automatically load dependencies and run. See the requirements in Polish at: https://github.com/apohllo/obiektowe-lab/blob/master/proj1/Readme.md
 
 ## Screenshots
 ![Screenshot from 2021-08-31 10-41-43](https://user-images.githubusercontent.com/54529536/131471388-41b7d6f0-ebfe-4030-addd-7ad451ef7655.png)
